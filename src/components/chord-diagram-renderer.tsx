@@ -28,7 +28,6 @@ export function ChordDiagramRenderer({ diagram }: ChordDiagramRendererProps) {
 
     chord
       .configure({
-        orientation: "vertical",
         strings: 6,
         frets: 5,
         tuning: ["E", "A", "D", "G", "B", "E"],

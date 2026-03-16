@@ -1,8 +1,8 @@
 import * as React from "react";
-import type { GuitarChordDiagram } from "@/lib/chord-diagram";
+import type { NormalizedChordDiagram } from "@/lib/chord-lookup";
 
 interface ChordDiagramProps {
-  diagram: GuitarChordDiagram;
+  diagram: NormalizedChordDiagram;
 }
 
 const STRING_LABELS = ["E", "A", "D", "G", "B", "E"];
@@ -10,7 +10,10 @@ const STRING_LABELS = ["E", "A", "D", "G", "B", "E"];
 export function ChordDiagram({ diagram }: ChordDiagramProps) {
   const { frets, baseFret = 1 } = diagram;
 
-  const maxFret = Math.max(...frets.filter((f) => f > 0));
+  const numericFrets = frets.filter(
+    (f): f is number => typeof f === "number" && f > 0,
+  );
+  const maxFret = numericFrets.length > 0 ? Math.max(...numericFrets) : baseFret;
   const span = Math.max(4, maxFret - baseFret + 1);
 
   const width = 140;
@@ -82,7 +85,7 @@ export function ChordDiagram({ diagram }: ChordDiagramProps) {
       {frets.map((fret, stringIndex) => {
         const x = leftMargin + stringIndex * stringSpacing;
 
-        if (fret < 0) {
+        if (fret === "x") {
           return (
             <text
               key={`mute-${stringIndex}`}
@@ -112,7 +115,9 @@ export function ChordDiagram({ diagram }: ChordDiagramProps) {
           );
         }
 
-        const fretIndex = fretForIndex(0) === fret ? 0 : fret - baseFret;
+        const numericFret = fret as number;
+        const fretIndex =
+          fretForIndex(0) === numericFret ? 0 : numericFret - baseFret;
         const y =
           topMargin +
           fretIndex * fretSpacing +
