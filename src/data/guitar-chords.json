@@ -1,0 +1,107 @@
+{
+  "C": [
+    {
+      "baseFret": 1,
+      "frets": [-1, 3, 2, 0, 1, 0],
+      "fingers": [0, 3, 2, 0, 1, 0],
+      "barres": []
+    }
+  ],
+  "Cmaj7": [
+    {
+      "baseFret": 1,
+      "frets": [-1, 3, 2, 0, 0, 0],
+      "fingers": [0, 3, 2, 0, 0, 0],
+      "barres": []
+    }
+  ],
+  "Cm": [
+    {
+      "baseFret": 3,
+      "frets": [-1, 3, 5, 5, 4, 3],
+      "fingers": [0, 1, 3, 4, 2, 1],
+      "barres": [{"fromString": 5, "toString": 1, "fret": 3}]
+    }
+  ],
+  "D": [
+    {
+      "baseFret": 1,
+      "frets": [-1, -1, 0, 2, 3, 2],
+      "fingers": [0, 0, 0, 1, 3, 2],
+      "barres": []
+    }
+  ],
+  "Dm": [
+    {
+      "baseFret": 1,
+      "frets": [-1, -1, 0, 2, 3, 1],
+      "fingers": [0, 0, 0, 2, 3, 1],
+      "barres": []
+    }
+  ],
+  "Dm7": [
+    {
+      "baseFret": 1,
+      "frets": [-1, -1, 0, 2, 1, 1],
+      "fingers": [0, 0, 0, 2, 1, 1],
+      "barres": [{"fromString": 2, "toString": 1, "fret": 1}]
+    }
+  ],
+  "F": [
+    {
+      "baseFret": 1,
+      "frets": [1, 3, 3, 2, 1, 1],
+      "fingers": [1, 3, 4, 2, 1, 1],
+      "barres": [{"fromString": 6, "toString": 1, "fret": 1}]
+    }
+  ],
+  "F#7": [
+    {
+      "baseFret": 1,
+      "frets": [2, 4, 2, 3, 2, 2],
+      "fingers": [2, 4, 1, 3, 1, 1],
+      "barres": [{"fromString": 6, "toString": 1, "fret": 2}]
+    }
+  ],
+  "G": [
+    {
+      "baseFret": 1,
+      "frets": [3, 2, 0, 0, 0, 3],
+      "fingers": [2, 1, 0, 0, 0, 3],
+      "barres": []
+    }
+  ],
+  "G7": [
+    {
+      "baseFret": 1,
+      "frets": [3, 2, 0, 0, 0, 1],
+      "fingers": [3, 2, 0, 0, 0, 1],
+      "barres": []
+    }
+  ],
+  "Bb": [
+    {
+      "baseFret": 1,
+      "frets": [-1, 1, 3, 3, 3, 1],
+      "fingers": [0, 1, 3, 4, 2, 1],
+      "barres": [{"fromString": 2, "toString": 1, "fret": 1}]
+    }
+  ],
+  "Bbm": [
+    {
+      "baseFret": 1,
+      "frets": [-1, 1, 3, 3, 2, 1],
+      "fingers": [0, 1, 3, 4, 2, 1],
+      "barres": [{"fromString": 2, "toString": 1, "fret": 1}]
+    }
+  ],
+  "Bdim": [
+    {
+      "baseFret": 1,
+      "frets": [-1, 2, 3, 1, 3, 1],
+      "fingers": [0, 2, 3, 1, 4, 1],
+      "barres": [{"fromString": 2, "toString": 1, "fret": 1}]
+    }
+  ]
+}
+

@@ -1,3 +1,29 @@
+## Transpo – Transposition d'accords (Next.js)
+
+### Pré-requis
+- Node.js 20.x recommandé
+- npm (fourni avec Node 20)
+
+### Installation
+```bash
+npm install
+```
+
+### Lancement en développement
+```bash
+npm run dev
+```
+
+Puis ouvrez `http://localhost:3000` dans votre navigateur.
+
+### Description rapide
+- Application Next.js 16 (App Router) avec TypeScript et Tailwind CSS.
+- Interface centrée et responsive pour coller ou saisir des accords sur plusieurs lignes.
+- Bouton **Transposer** qui calcule une première version transposée (décalage 0).
+- Deux boutons **-** et **+** qui appliquent une transposition cumulative de ±1 demi-ton sur le résultat affiché.
+- Gestion des accords simples et slash (ex. `DoM`, `Rem7`, `DoM/Sol`), en notation française.
+- Convention d’affichage : toutes les notes chromatiques sont normalisées en dièses (`Do, Do#, Ré, Ré#, Mi, Fa, Fa#, Sol, Sol#, La, La#, Si`), même si l’entrée utilise des bémols (`Réb, Mib, Solb, Lab, Sib`).
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
