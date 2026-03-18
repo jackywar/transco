@@ -10,6 +10,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { ChordDiagramRenderer } from "@/components/chord-diagram-renderer";
 import { fetchChordDiagram } from "@/lib/chord-diagram";
+import {
+  difficultyToColor,
+  difficultyToLabel,
+  formatBreakdown,
+  type DifficultyResult,
+} from "@/lib/chord-difficulty";
 
 interface ChordDiagramDialogProps {
   open: boolean;
@@ -31,6 +37,7 @@ export function ChordDiagramDialog({
   const [current, setCurrent] = React.useState<Awaited<
     ReturnType<typeof fetchChordDiagram>
   > | null>(null);
+  const [showDebug, setShowDebug] = React.useState(false);
 
   React.useEffect(() => {
     if (!open || !englishName || !frenchName) {
@@ -77,6 +84,7 @@ export function ChordDiagramDialog({
 
   const hasDiagram = !!current && current.length > 0;
   const diagram = hasDiagram && current ? current[variantIndex] : null;
+  const difficulty: DifficultyResult | undefined = diagram?.difficulty;
 
   const title = frenchName ?? "Accord";
   const subtitle = englishName
@@ -113,12 +121,41 @@ export function ChordDiagramDialog({
           </p>
         )}
         {!loading && !error && diagram && (
-          <div className="space-y-2">
+          <div className="space-y-3">
             <ChordDiagramRenderer diagram={diagram} />
             {variantsCount > 1 && (
               <p className="text-center text-xs text-zinc-500 dark:text-zinc-400">
                 Variante {variantIndex + 1} sur {variantsCount}
               </p>
+            )}
+            {difficulty && (
+              <div className="mt-3 rounded-md border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-700 dark:bg-zinc-900">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <span
+                      className="inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold text-white"
+                      style={{ backgroundColor: difficultyToColor(difficulty.score) }}
+                    >
+                      {difficulty.score}
+                    </span>
+                    <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+                      {difficultyToLabel(difficulty.score)}
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setShowDebug(!showDebug)}
+                    className="text-xs text-zinc-500 underline hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200"
+                  >
+                    {showDebug ? "Masquer détails" : "Voir détails"}
+                  </button>
+                </div>
+                {showDebug && (
+                  <pre className="mt-2 whitespace-pre-wrap rounded bg-zinc-100 p-2 text-xs text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
+                    {formatBreakdown(difficulty.breakdown)}
+                  </pre>
+                )}
+              </div>
             )}
           </div>
         )}

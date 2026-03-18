@@ -4,6 +4,11 @@ import {
   normalizeInputText,
 } from "./chord-notation";
 import { getBestChordShape } from "./chord-db";
+import {
+  calculateDifficulty,
+  type DifficultyResult,
+  type CanonicalChord,
+} from "./chord-difficulty";
 
 export type NormalizedChordDiagram = {
   title: string;
@@ -11,6 +16,7 @@ export type NormalizedChordDiagram = {
   frets: Array<number | "x" | 0>;
   fingers?: Array<number | null>;
   barres?: Array<{ fromString: number; toString: number; fret: number }>;
+  difficulty?: DifficultyResult;
 };
 
 export async function lookupChordDiagramFromFrench(
@@ -34,6 +40,16 @@ export async function lookupChordDiagramFromFrench(
     const [mainCandidate] = candidate.split("/");
     const shape = getBestChordShape(mainCandidate);
     if (shape) {
+      // Convert to canonical format for difficulty calculation
+      const canonicalChord: CanonicalChord = {
+        name: english,
+        frets: shape.frets,
+        fingers: shape.fingers?.map((f) => (f === null ? 0 : f)) as
+          | number[]
+          | undefined,
+      };
+      const difficulty = calculateDifficulty(canonicalChord);
+
       const normalized: NormalizedChordDiagram = {
         title: english,
         baseFret: shape.baseFret,
@@ -42,6 +58,7 @@ export async function lookupChordDiagramFromFrench(
         >,
         fingers: shape.fingers?.map((f) => (f === 0 ? null : f)) ?? undefined,
         barres: shape.barres,
+        difficulty,
       };
 
       return [normalized];

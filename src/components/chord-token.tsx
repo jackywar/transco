@@ -1,11 +1,16 @@
 import * as React from "react";
+import {
+  difficultyToBorderColor,
+  difficultyToBackgroundColor,
+} from "@/lib/chord-difficulty";
 
 interface ChordTokenProps {
   chord: string;
   onClick: () => void;
+  difficultyScore?: number;
 }
 
-export function ChordToken({ chord, onClick }: ChordTokenProps) {
+export function ChordToken({ chord, onClick, difficultyScore }: ChordTokenProps) {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
@@ -13,12 +18,30 @@ export function ChordToken({ chord, onClick }: ChordTokenProps) {
     }
   };
 
+  const hasDifficulty = difficultyScore !== undefined;
+  const borderColor = hasDifficulty
+    ? difficultyToBorderColor(difficultyScore)
+    : undefined;
+  const backgroundColor = hasDifficulty
+    ? difficultyToBackgroundColor(difficultyScore)
+    : undefined;
+
   return (
     <button
       type="button"
       onClick={onClick}
       onKeyDown={handleKeyDown}
-      className="rounded px-0.5 text-[0.9em] font-semibold text-zinc-900 underline decoration-dotted underline-offset-2 hover:bg-zinc-100 hover:text-zinc-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 dark:text-zinc-50 dark:hover:bg-zinc-900"
+      className="rounded px-1 py-0.5 text-[0.9em] font-semibold text-zinc-900 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 dark:text-zinc-50 transition-colors"
+      style={
+        hasDifficulty
+          ? {
+              backgroundColor,
+              borderWidth: "2px",
+              borderStyle: "solid",
+              borderColor,
+            }
+          : undefined
+      }
     >
       {chord}
     </button>

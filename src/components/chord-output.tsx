@@ -6,6 +6,7 @@ import {
   convertFrenchChordToEnglish,
   extractChordParts,
 } from "@/lib/chord-notation";
+import { useChordDifficulties } from "@/hooks/use-chord-difficulties";
 
 interface ChordOutputProps {
   value: string;
@@ -24,6 +25,20 @@ export function ChordOutput({ value, visible }: ChordOutputProps) {
   const [selectedEnglishChord, setSelectedEnglishChord] = React.useState<
     string | null
   >(null);
+
+  // Extract all chord tokens from the value for difficulty pre-fetching
+  const allChords = React.useMemo(() => {
+    const chords: string[] = [];
+    for (const match of value.matchAll(CHORD_TOKEN_REGEX)) {
+      const token = match[0];
+      if (extractChordParts(token)) {
+        chords.push(token);
+      }
+    }
+    return chords;
+  }, [value]);
+
+  const difficulties = useChordDifficulties(allChords);
 
   if (!visible) {
     return null;
@@ -77,11 +92,13 @@ export function ChordOutput({ value, visible }: ChordOutputProps) {
       const isChord = !!extractChordParts(token);
 
       if (isChord) {
+        const difficultyScore = difficulties.get(token) ?? undefined;
         elements.push(
           <ChordToken
             key={`${lineIndex}-chord-${index}`}
             chord={token}
             onClick={() => handleChordClick(token)}
+            difficultyScore={difficultyScore}
           />,
         );
       } else {
