@@ -27,5 +27,10 @@
     "next": "14.x",
     "react": "18.x",
     "react-dom": "18.x"
+  },
+
+  "engines": {
+    "node": "20.x"
   }
+  
 }
