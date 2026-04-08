@@ -52,6 +52,21 @@ export function transposeChord(chord: string, semitones: number): string {
   return `${main}/${transposedBass}`;
 }
 
+function isChordToken(token: string): boolean {
+  const trimmed = token.trim();
+  if (!trimmed) return false;
+  const [main, bassPart] = trimmed.split("/");
+  if (!parseChordSymbol(main)) return false;
+  if (!bassPart) return true;
+  return !!parseChordSymbol(bassPart);
+}
+
+function stripOuterPunctuation(token: string): string {
+  // Tolère quelques séparateurs usuels autour des accords (ex: "| DoM |", "(Am)", "Ré7,")
+  // Sans toucher à "#" "b" "/" "°" "+" qui font partie des tokens d'accord.
+  return token.replace(/^[\s|()[\]{},;:.!?]+|[\s|()[\]{},;:.!?]+$/g, "");
+}
+
 // Regex pour détecter un "token accord" relativement prudent :
 // - commence par une note française (Do, Ré, Mi, Fa, Sol, La, Si) avec alias "Re"
 // - peut contenir dièse ou bémol
@@ -70,6 +85,15 @@ export function transposeTextPreservingLines(
 
   const transformed = lines.map((line) => {
     if (!line.trim()) return line;
+
+    // Si la ligne contient autre chose que des accords (hors ponctuation/| autour),
+    // on la laisse intacte.
+    for (const match of line.matchAll(/\S+/g)) {
+      const rawToken = match[0] ?? "";
+      const token = stripOuterPunctuation(rawToken);
+      if (!token) continue;
+      if (!isChordToken(token)) return line;
+    }
 
     let result = "";
     let lastIndex = 0;

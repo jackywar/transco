@@ -139,6 +139,12 @@ export interface ParsedChord {
 const ROOT_REGEX =
   /^(?<root>Do|Ré|Re|Mi|Fa|Sol|La|Si|[A-G])(?<accidental>#|b)?(?<quality>.*)$/i;
 
+// Qualités/suffixes d'accords acceptés, sous forme de "segments" concaténés.
+// Objectif : éviter de transformer du texte normal (ex: "Couplet") en "accord".
+// Exemples acceptés : "", "M", "m", "7", "maj7", "m7b5", "sus4", "add9", "dim7", "7sus4".
+const QUALITY_SEGMENTS_REGEX =
+  /^(?:(?:maj7|m7|M7|maj|min|dim|aug|sus(?:2|4)?|add\d+|[0-9]{1,2}|[#b](?:5|9|11|13)|°|ø|\+|M|m))+$/i;
+
 export function parseChordSymbol(chord: string): ParsedChord | null {
   const match = chord.match(ROOT_REGEX);
   if (!match || !match.groups) return null;
@@ -146,6 +152,8 @@ export function parseChordSymbol(chord: string): ParsedChord | null {
   const rootRaw = `${root}${accidental ?? ""}`;
   const normalized = normalizeNote(rootRaw);
   if (!normalized) return null;
+  const q = (quality ?? "").trim();
+  if (q && !QUALITY_SEGMENTS_REGEX.test(q)) return null;
   return {
     rootRaw,
     rootNote: normalized,
