@@ -47,6 +47,42 @@ const NOTE_ALIASES: Record<string, NoteName> = {
   la: "La",
   "la#": "La#",
   si: "Si",
+  // notation américaine (A-G), avec altérations éventuelles
+  c: "Do",
+  "c#": "Do#",
+  cb: "Si",
+  "c♭": "Si",
+  "c♯": "Do#",
+  d: "Ré",
+  "d#": "Ré#",
+  db: "Do#",
+  "d♭": "Do#",
+  "d♯": "Ré#",
+  e: "Mi",
+  "e#": "Fa",
+  eb: "Ré#",
+  "e♭": "Ré#",
+  "e♯": "Fa",
+  f: "Fa",
+  "f#": "Fa#",
+  fb: "Mi",
+  "f♭": "Mi",
+  "f♯": "Fa#",
+  g: "Sol",
+  "g#": "Sol#",
+  gb: "Fa#",
+  "g♭": "Fa#",
+  "g♯": "Sol#",
+  a: "La",
+  "a#": "La#",
+  ab: "Sol#",
+  "a♭": "Sol#",
+  "a♯": "La#",
+  b: "Si",
+  "b#": "Do",
+  bb: "La#",
+  "b♭": "La#",
+  "b♯": "Do",
   // bémols fréquents, normalisés en dièses équivalents
   "réb": "Do#",
   "reb": "Do#",
@@ -101,7 +137,7 @@ export interface ParsedChord {
 // - (?<quality>.*) : tout ce qui suit (suffixe de qualité, extensions, etc.)
 // Le parsing de la basse se fera dans parseChordWithBass (voir parse-chords.ts).
 const ROOT_REGEX =
-  /^(?<root>Do|Ré|Re|Mi|Fa|Sol|La|Si)(?<accidental>#|b)?(?<quality>.*)$/i;
+  /^(?<root>Do|Ré|Re|Mi|Fa|Sol|La|Si|[A-G])(?<accidental>#|b)?(?<quality>.*)$/i;
 
 export function parseChordSymbol(chord: string): ParsedChord | null {
   const match = chord.match(ROOT_REGEX);
