@@ -1,8 +1,8 @@
 ## Transpo – Transposition d'accords (Next.js)
 
 ### Pré-requis
-- Node.js 20.x recommandé
-- npm (fourni avec Node 20)
+- Node.js 24.x recommandé
+- npm (fourni avec Node 24)
 
 ### Installation
 ```bash
